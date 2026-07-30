@@ -1,4 +1,5 @@
 payload:
+  - DOMAIN,sub.123.ss
   - DOMAIN-SUFFIX,ultramobile.com
   - DOMAIN-SUFFIX,goog
   - DOMAIN-KEYWORD,googleapis

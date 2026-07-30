@@ -16,4 +16,5 @@ payload:
   - DOMAIN-SUFFIX,feizei.com
   - DOMAIN-SUFFIX,rfchost.com
   - DOMAIN-SUFFIX,szhdy.com
-  - DOMAIN,s3.boknok.com
+  - DOMAIN,sg-hk.123.ss
+  - IP-CIDR,191.222.216.171/32,no-resolve
