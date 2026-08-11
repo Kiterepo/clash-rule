@@ -234,11 +234,23 @@ rule-providers:
     url: "https://raw.githubusercontent.com/f3liiix/clash/main/rules/custom-us.yaml"
     path: ./rules/custom-us.yaml
     interval: 86400
-  custom-claude:
+  custom-anthropic:
     type: http
     behavior: classical
-    url: "https://raw.githubusercontent.com/f3liiix/clash/main/rules/custom-claude.yaml"
-    path: ./rules/custom-claude.yaml
+    url: "https://raw.githubusercontent.com/f3liiix/clash/main/rules/custom-anthropic.yaml"
+    path: ./rules/custom-anthropic.yaml
+    interval: 86400
+  custom-openai:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/f3liiix/clash/main/rules/custom-openai.yaml"
+    path: ./rules/custom-openai.yaml
+    interval: 86400
+  custom-google:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/f3liiix/clash/main/rules/custom-google.yaml"
+    path: ./rules/custom-google.yaml
     interval: 86400
   custom-proxy:
     type: http
@@ -266,21 +278,22 @@ rules:
 
   # 自定义分流规则
   - DOMAIN,sg.123.ss,香港
-  - RULE-SET,custom-claude,Claude
-  - RULE-SET,custom-direct,DIRECT
+  - GEOSITE,youtube,香港
+  - RULE-SET,custom-anthropic,Claude
+  - RULE-SET,custom-openai,美国
+  - RULE-SET,custom-google,美国
   - RULE-SET,custom-us,美国
+  - RULE-SET,custom-direct,DIRECT
   - RULE-SET,custom-proxy,默认
 
   # 分流规则
-  - DOMAIN-SUFFIX,google,美国
   - GEOSITE,google,美国
-  - GEOSITE,category-ai-!cn,家宽
+  - GEOSITE,category-ai-!cn,家宽 # 其余 AI 服务兜底
   - GEOSITE,category-cryptocurrency,日本
   - GEOSITE,tiktok,家宽
   - GEOSITE,netflix,家宽
   - GEOIP,netflix,家宽
   - GEOSITE,disney,家宽
-  - GEOSITE,youtube,香港
   - GEOSITE,telegram,美国
   - GEOIP,telegram,美国
   - GEOSITE,whatsapp,美国

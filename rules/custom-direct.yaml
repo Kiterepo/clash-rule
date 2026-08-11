@@ -1,5 +1,4 @@
 payload:
-  - DOMAIN-SUFFIX,bgxc.com
   - DOMAIN-SUFFIX,volcengine.com
   - DOMAIN-SUFFIX,oceanengine.com
   - DOMAIN-SUFFIX,dingtalk.com
@@ -11,11 +10,7 @@ payload:
   - DOMAIN-SUFFIX,baidu.com
   - DOMAIN-SUFFIX,huaweicloud.com
   - DOMAIN-SUFFIX,changdupingtai.com
-  - DOMAIN-SUFFIX,gaga.art
-  - DOMAIN-SUFFIX,n.cn
   - DOMAIN-SUFFIX,feizei.com
-  - DOMAIN-SUFFIX,rfchost.com
-  - DOMAIN-SUFFIX,szhdy.com
   - DOMAIN,sg-hk.123.ss
   - IP-CIDR,191.222.216.171/32,no-resolve
   - IP-CIDR,207.57.140.42/32,no-resolve

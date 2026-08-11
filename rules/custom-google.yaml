@@ -1,0 +1,7 @@
+payload:
+  - DOMAIN-SUFFIX,goog
+  - DOMAIN-SUFFIX,gstatic.com
+  - DOMAIN-SUFFIX,deepmind.com
+  - DOMAIN-KEYWORD,google
+  - DOMAIN-KEYWORD,antigravity
+  - DOMAIN-KEYWORD,colab
