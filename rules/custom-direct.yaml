@@ -12,6 +12,9 @@ payload:
   - DOMAIN-SUFFIX,changdupingtai.com
   - DOMAIN-SUFFIX,feizei.com
   - DOMAIN,sg-hk.123.ss
+  - DOMAIN,api.123.ss
+  - DOMAIN,d.123.ss
+  - DOMAIN,vm.hide.ss
   - IP-CIDR,191.222.216.171/32,no-resolve
   - IP-CIDR,207.57.140.42/32,no-resolve
   - IP-CIDR,154.21.90.212/32,no-resolve
