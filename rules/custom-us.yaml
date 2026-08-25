@@ -1,5 +1,5 @@
 payload:
-  - DOMAIN,sub.123.ss
+  - DOMAIN-SUFFIX,fun.ss
   - DOMAIN-SUFFIX,ultramobile.com
   - IP-CIDR,157.254.234.71/32,no-resolve
   - IP-CIDR,162.225.105.247/32,no-resolve
