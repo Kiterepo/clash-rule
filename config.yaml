@@ -52,6 +52,10 @@ tun:
   auto-redirect: true
   auto-detect-interface: true
   strict-route: true
+  # Tailnet 流量交给 Tailscale，避免与 Clash TUN 抢路由
+  route-exclude-address:
+    - 100.64.0.0/10
+    - fd7a:115c:a1e0::/48
   mtu: 9000
   gso: true
 
@@ -78,6 +82,9 @@ dns:
 
   # DNS 策略：精确控制
   nameserver-policy:
+    # Tailscale MagicDNS，仅解析 Tailnet 域名
+    "+.tail.hoofei.com":
+      - 100.100.100.100
     # 国内域名 → 国内DNS（保证速度）
     "geosite:cn,private,apple":
       - https://doh.pub/dns-query
@@ -103,6 +110,7 @@ dns:
     - "*.lan"
     - "*.local"
     - "*.localdomain"
+    - "+.tail.hoofei.com"
     - localhost.ptlogin2.qq.com
     - "+.stun.*.*"
     - "+.stun.*.*.*"
@@ -260,6 +268,11 @@ rule-providers:
     interval: 86400
 
 rules:
+  # Tailnet 地址由 Tailscale 直接处理
+  - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+  - IP-CIDR6,fd7a:115c:a1e0::/48,DIRECT,no-resolve
+  - IP-CIDR,100.100.100.100/32,DIRECT,no-resolve
+
   # DNS 查询规则（优先级最高）
   - DOMAIN-SUFFIX,doh.pub,DIRECT
   - DOMAIN-SUFFIX,alidns.com,DIRECT
