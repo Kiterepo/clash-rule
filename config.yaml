@@ -125,6 +125,7 @@ dns:
     - "+.tenpay.com"
     - "+.wxpay.wxutil.com"
     - "+.oss.hk"
+    - "sg.123.ss"
 
 # 嗅探配置
 sniffer:
