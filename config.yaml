@@ -126,6 +126,8 @@ dns:
     - "+.wxpay.wxutil.com"
     - "+.oss.hk"
     - "sg.123.ss"
+    - "+.bytepluses.com"
+    - "+.byteplusapi.com"
 
 # 嗅探配置
 sniffer:
