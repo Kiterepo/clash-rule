@@ -280,6 +280,8 @@ rules:
   - GEOIP,PRIVATE,DIRECT,no-resolve
 
   # 自定义分流规则
+  - DOMAIN,bytepluses.com,DIRECT
+  - DOMAIN,byteplusapi.com,DIRECT
   - DOMAIN,sg.123.ss,新加坡
   - DOMAIN-SUFFIX,xiaoyueyue.com,新加坡
   - GEOSITE,youtube,香港
