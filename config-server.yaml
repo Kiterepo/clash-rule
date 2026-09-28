@@ -1,37 +1,33 @@
 # 全局配置
-mixed-port: 7890 # HTTP(S) 和 SOCKS 代理混合端口
-# redir-port: 7891 # 透明代理端口，用于 Linux 和 MacOS
-# tproxy-port: 7892 # 透明代理端口，用于 Linux (TProxy TCP and TProxy UDP)
-# port: 7893 # HTTP(S) 代理服务器端口
-# socks-port: 7894 # SOCKS5 代理端口
-allow-lan: true # 允许局域网连接
-bind-address: "*" # 绑定 IP 地址，仅作用于 allow-lan 为 true 时，'*'表示所有地址
-skip-auth-prefixes: # 设置跳过验证的 IP 段
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+skip-auth-prefixes:
   - 127.0.0.1/8
   - ::1/128
-lan-allowed-ips: # 允许连接的 IP 地址段，仅作用于 allow-lan 为 true, 默认值为 0.0.0.0/0 和::/0
+lan-allowed-ips:
   - 0.0.0.0/0
   - ::/0
-mode: rule # 'rule' 规则 / 'global' 全局 / 'direct' 直连
-log-level: warning # 日志等级 silent/error/warning/info/debug
-ipv6: false # IPv6 总开关，关闭阻断所有 IPv6 链接和屏蔽 DNS 请求 AAAA 记录
-keep-alive-interval: 1800 #TCP Keep Alive 包的间隔，单位为秒
-keep-alive-idle: 60 # TCP Keep Alive 的最大空闲时间
-disable-keep-alive: false # 禁用 TCP Keep Alive
+mode: rule
+log-level: warning
+ipv6: false
+keep-alive-interval: 1800
+keep-alive-idle: 60
+disable-keep-alive: false
 
 # 缓存
 profile:
-  store-selected: true # 存储 select 选择记录
-  store-fake-ip: true # 持久化 fake-ip
+  store-selected: true
+  store-fake-ip: true
 
-unified-delay: true # 统一延迟，更换延迟计算方式，通过去除握手等额外开销来降低延迟数值
-tcp-concurrent: true # TCP 并发，TCP 并发请求所有 IP 地址，然后选择延迟最低的一个进行连接
+unified-delay: true
+tcp-concurrent: true
 
 # GEOIP 数据模式
-geodata-mode: true # 更改 geoip 使用文件，mmdb 或者 dat，可选 true/false，true为dat
-geodata-loader: memconservative # GEO 文件加载模式
-geo-auto-update: true # 是否自动更新 GEO
-geo-update-interval: 720 # 更新间隔，单位：小时
+geodata-mode: true
+geodata-loader: memconservative
+geo-auto-update: true
+geo-update-interval: 720
 # 自定义 GEO 下载地址
 geox-url:
   geoip: "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat"
@@ -39,7 +35,7 @@ geox-url:
   mmdb: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb"
   asn: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb"
 
-global-ua: clash.meta # 自定义外部资源下载时使用的的 UA
+global-ua: clash.meta
 
 # TUN 配置
 tun:
@@ -67,13 +63,13 @@ tun:
 # DNS 配置
 dns:
   enable: true
-  prefer-h3: false # 建议启用 HTTP/3，更快
-  listen: 0.0.0.0:53 # 开启 DNS 服务器监听
+  prefer-h3: false
+  listen: 0.0.0.0:53
   ipv6: false
-  respect-rules: true # 遵循规则
-  enhanced-mode: fake-ip # 使用fake-ip模式
+  respect-rules: true
+  enhanced-mode: fake-ip
   behavior: strict
-  fake-ip-range: 198.18.0.1/16 # Fake IP 池设置
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
 
   default-nameserver:
@@ -129,6 +125,8 @@ dns:
     - geosite:private
     - geosite:cn
     - "+.fun.ss"
+    - "+.tokensss.com"
+    - "+.tokensss.test"
     - "+.qq.com"
     - "+.wechat.com"
     - "+.weixin.qq.com"
@@ -137,11 +135,10 @@ dns:
     - "+.servicewechat.com"
     - "+.tenpay.com"
     - "+.wxpay.wxutil.com"
-    - "+.oss.hk"
-    - "sg.123.ss"
+    - "+.tencentyun.com"
+    - "+.tencent.com"
     - "+.bytepluses.com"
     - "+.byteplusapi.com"
-    - "+.tencentyun.com"
 
 # 嗅探配置
 sniffer:
@@ -160,6 +157,7 @@ sniffer:
     - "+.wechat.com"
     - "+.qpic.cn"
     - "+.tencentyun.com"
+    - "+.tencent.com"
 
 proxy-providers:
   Subscribe:
@@ -173,7 +171,7 @@ proxy-providers:
     override:
       skip-cert-verify: true
       udp: true
-    url: "https://sub.hoofei.com/subscribe/download/collection/mihomo-server-best?target=ClashMeta"
+    url: $suburl
     path: ./SelfHost.yaml
 
 proxy-groups:
