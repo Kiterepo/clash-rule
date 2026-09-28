@@ -1,0 +1,209 @@
+# 全局配置
+mixed-port: 7890 # HTTP(S) 和 SOCKS 代理混合端口
+# redir-port: 7891 # 透明代理端口，用于 Linux 和 MacOS
+# tproxy-port: 7892 # 透明代理端口，用于 Linux (TProxy TCP and TProxy UDP)
+# port: 7893 # HTTP(S) 代理服务器端口
+# socks-port: 7894 # SOCKS5 代理端口
+allow-lan: true # 允许局域网连接
+bind-address: "*" # 绑定 IP 地址，仅作用于 allow-lan 为 true 时，'*'表示所有地址
+skip-auth-prefixes: # 设置跳过验证的 IP 段
+  - 127.0.0.1/8
+  - ::1/128
+lan-allowed-ips: # 允许连接的 IP 地址段，仅作用于 allow-lan 为 true, 默认值为 0.0.0.0/0 和::/0
+  - 0.0.0.0/0
+  - ::/0
+mode: rule # 'rule' 规则 / 'global' 全局 / 'direct' 直连
+log-level: warning # 日志等级 silent/error/warning/info/debug
+ipv6: false # IPv6 总开关，关闭阻断所有 IPv6 链接和屏蔽 DNS 请求 AAAA 记录
+keep-alive-interval: 1800 #TCP Keep Alive 包的间隔，单位为秒
+keep-alive-idle: 60 # TCP Keep Alive 的最大空闲时间
+disable-keep-alive: false # 禁用 TCP Keep Alive
+
+# 缓存
+profile:
+  store-selected: true # 存储 select 选择记录
+  store-fake-ip: true # 持久化 fake-ip
+
+unified-delay: true # 统一延迟，更换延迟计算方式，通过去除握手等额外开销来降低延迟数值
+tcp-concurrent: true # TCP 并发，TCP 并发请求所有 IP 地址，然后选择延迟最低的一个进行连接
+
+# GEOIP 数据模式
+geodata-mode: true # 更改 geoip 使用文件，mmdb 或者 dat，可选 true/false，true为dat
+geodata-loader: memconservative # GEO 文件加载模式
+geo-auto-update: true # 是否自动更新 GEO
+geo-update-interval: 720 # 更新间隔，单位：小时
+# 自定义 GEO 下载地址
+geox-url:
+  geoip: "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat"
+  geosite: "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat"
+  mmdb: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb"
+  asn: "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb"
+
+global-ua: clash.meta # 自定义外部资源下载时使用的的 UA
+
+# TUN 配置
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - "any:53"
+    - "tcp://any:53"
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+  strict-route: true
+  mtu: 9000
+  gso: true
+  # 内网/保留地址不进 TUN，直接走物理网卡（腾讯云内网镜像、VPC DNS、Docker 网段等）
+  route-exclude-address:
+    - 10.0.0.0/8
+    - 100.64.0.0/10
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+    - 224.0.0.0/4
+
+# DNS 配置
+dns:
+  enable: true
+  prefer-h3: false # 建议启用 HTTP/3，更快
+  listen: 0.0.0.0:53 # 开启 DNS 服务器监听
+  ipv6: false
+  respect-rules: true # 遵循规则
+  enhanced-mode: fake-ip # 使用fake-ip模式
+  behavior: strict
+  fake-ip-range: 198.18.0.1/16 # Fake IP 池设置
+  fake-ip-filter-mode: blacklist
+
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 主 DNS：国外流量使用的 DNS（走代理）
+  nameserver:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+
+  # DNS 策略：精确控制
+  nameserver-policy:
+    # 腾讯云内网域名，走 VPC 内网 DNS
+    "+.tencentyun.com":
+      - 183.60.83.19
+      - 183.60.82.98
+    # 国内域名 → 国内DNS（保证速度）
+    "geosite:cn,private,apple":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    # .cn 后缀域名
+    "+.cn":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    # 国外域名 → 国外DNS（防泄露）
+    "geosite:geolocation-!cn":
+      - https://dns.cloudflare.com/dns-query
+      - https://dns.google/dns-query
+
+  # 代理服务器域名解析（必须直连）
+  proxy-server-nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+    - 223.5.5.5
+    - 119.29.29.29
+
+  # 配置不使用 fake-ip 的域名
+  fake-ip-filter:
+    - "*.lan"
+    - "*.local"
+    - "*.localdomain"
+    - localhost.ptlogin2.qq.com
+    - "+.stun.*.*"
+    - "+.stun.*.*.*"
+    - "+.stun.*.*.*.*"
+    - "stun.*.*"
+    - "stun.*.*.*"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - time.*.com
+    - ntp.*.com
+    - geosite:private
+    - geosite:cn
+    - "+.fun.ss"
+    - "+.qq.com"
+    - "+.wechat.com"
+    - "+.weixin.qq.com"
+    - "+.qpic.cn"
+    - "+.qlogo.cn"
+    - "+.servicewechat.com"
+    - "+.tenpay.com"
+    - "+.wxpay.wxutil.com"
+    - "+.oss.hk"
+    - "sg.123.ss"
+    - "+.bytepluses.com"
+    - "+.byteplusapi.com"
+    - "+.tencentyun.com"
+
+# 嗅探配置
+sniffer:
+  enable: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "+.push.apple.com"
+    - "+.qq.com"
+    - "+.wechat.com"
+    - "+.qpic.cn"
+    - "+.tencentyun.com"
+
+proxy-providers:
+  Subscribe:
+    type: http
+    interval: 28800
+    health-check:
+      enable: true
+      url: "http://www.gstatic.com/generate_204"
+      interval: 1800
+    lazy: true
+    override:
+      skip-cert-verify: true
+      udp: true
+    url: "https://sub.hoofei.com/subscribe/download/collection/mihomo-server-best?target=ClashMeta"
+    path: ./SelfHost.yaml
+
+proxy-groups:
+  - {name: 默认, type: select, use: [Subscribe], icon: "https://raw.githubusercontent.com/f3liiix/clash/refs/heads/main/icons/Manual.png"}
+
+rules:
+  - DOMAIN-SUFFIX,tencentyun.com,DIRECT
+
+  # 私有网络（含腾讯云内网 169.254.x.x 镜像/DNS）
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+  - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - GEOIP,PRIVATE,DIRECT,no-resolve
+
+  - GEOSITE,github,默认
+  - GEOSITE,docker,默认
+  - GEOSITE,npmjs,默认
+  - GEOSITE,google,默认
+  - GEOSITE,wordpress,默认
+  - DOMAIN-SUFFIX,doh.pub,DIRECT
+  - DOMAIN-SUFFIX,alidns.com,DIRECT
+  - DOMAIN-SUFFIX,cloudflare.com,默认
+  - DOMAIN-SUFFIX,dns.google,默认
+  - DOMAIN,1.1.1.1,默认
+  - DOMAIN,1.0.0.1,默认
+  - DOMAIN,8.8.8.8,默认
+  - DOMAIN,8.8.4.4,默认
+  - GEOSITE,CN,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+  - MATCH,默认
